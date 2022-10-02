@@ -1,0 +1,28 @@
+package com.auction_dao;
+
+import java.util.List;
+
+import com.auction_bean.Product;
+import com.auction_bean.Seller;
+import com.auction_bean.SellerId;
+import com.auction_bean.SoldProducts;
+import com.auction_exception.ProductException;
+import com.auction_exception.SellerException;
+
+public interface SellerInterface {
+	public String sellerRegistration(Seller seller);
+	
+	public Seller sellerLogin(String email,String password) throws SellerException;
+	
+	public String sellerAddProduct(Product product) throws ProductException;
+	
+	public SellerId getSellerId(String name) throws SellerException;
+	
+	public String updateProductDetails(int pid,Product product) throws ProductException;
+	
+	public String deleteProduct(int pid) throws ProductException;
+	
+	public List<SoldProducts> showAllProduct() throws ProductException;
+	
+	public String markDisputed(int id) throws ProductException;
+}
