@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.PreparableStatement"/>
+    <fullyQualifiedTypeName name="com.auction_exception.AdminException"/>
+    <fullyQualifiedTypeName name="com.auction_dao.AdminInterface"/>
+    <fullyQualifiedTypeName name="com.auction_dao.AdminImplementation"/>
+    <fullyQualifiedTypeName name="com.auction_bean.Admin"/>
+    <fullyQualifiedTypeName name="com.auction_dao.SellerInterface"/>
+    <fullyQualifiedTypeName name="com.auction_dao.SellerImplementation"/>
+    <fullyQualifiedTypeName name="com.auction_bean.Seller"/>
+    <fullyQualifiedTypeName name="com.auction_exception.SellerException"/>
+    <fullyQualifiedTypeName name="com.auction_bean.SellerId"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="com.auction_dao.BuyerInterface"/>
+    <fullyQualifiedTypeName name="com.auction_dao.BuyerImplementation"/>
+    <fullyQualifiedTypeName name="com.auction_utility.DBUtil"/>
+    <fullyQualifiedTypeName name="com.auction_bean.Buyer"/>
+    <fullyQualifiedTypeName name="com.auction_bean.Product"/>
+    <fullyQualifiedTypeName name="com.auction_bean.BuyerId"/>
+    <fullyQualifiedTypeName name="com.auction_bean.Bid"/>
+    <fullyQualifiedTypeName name="com.auction_exception.BuyerException"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="com.auction_bean.BuyerDetails"/>
+    <fullyQualifiedTypeName name="com.auction_bean.SellerDetails"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.auction_bean.SoldProducts"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="com.auction_exception.ProductException"/>
+    <fullyQualifiedTypeName name="com.auction_bean.ProductFull"/>
+</qualifiedTypeNameHistroy>

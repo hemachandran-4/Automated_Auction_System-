@@ -1,0 +1,37 @@
+package com.auction_dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.auction_bean.Admin;
+import com.auction_exception.AdminException;
+import com.auction_utility.DBUtil;
+
+public class AdminImplementation implements AdminInterface{
+
+	@Override
+	public Admin adminLogin(String email, String password) throws AdminException {
+		
+		
+		try(Connection conn=DBUtil.provideConnection();) {
+			PreparedStatement ps=conn.prepareStatement("select * from admin where admin_email=? AND admin_password=?");
+			ps.setString(1, email);
+			ps.setString(2, password);
+			
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				int id=rs.getInt("admin_id");
+				String name=rs.getString("admin_name");
+				Admin a1=new Admin(id,name,email,password);
+				return a1;
+			}
+			else throw new AdminException("Invalid Input");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new AdminException(e.getMessage());
+		}
+	}
+
+}

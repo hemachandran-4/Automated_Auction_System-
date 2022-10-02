@@ -1,0 +1,12 @@
+package com.auction_dao;
+
+import com.auction_bean.Buyer;
+import com.auction_exception.BuyerException;
+
+public class BuyerImplementation implements BuyerInterface{
+		@Override
+		public String registerBuyer(Buyer buyer) throws BuyerException {
+			
+			return null;
+		}
+}

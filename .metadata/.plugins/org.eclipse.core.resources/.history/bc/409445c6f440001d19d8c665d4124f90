@@ -1,0 +1,18 @@
+package com.auction_dao;
+
+import java.sql.Connection;
+
+import com.auction_bean.Admin;
+import com.auction_exception.AdminException;
+import com.auction_utility.DBUtil;
+
+public class AdminImplementation implements AdminInterface{
+
+	@Override
+	public Admin adminLogin(String email, String password) throws AdminException {
+		
+		Connection conn=DBUtil.provideConnection();
+		return null;
+	}
+
+}

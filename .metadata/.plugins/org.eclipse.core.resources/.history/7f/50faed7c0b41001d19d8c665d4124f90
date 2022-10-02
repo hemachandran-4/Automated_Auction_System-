@@ -1,0 +1,99 @@
+package com.auction_client;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Scanner;
+
+import com.auction_bean.Admin;
+import com.auction_bean.Seller;
+import com.auction_dao.AdminImplementation;
+import com.auction_dao.AdminInterface;
+import com.auction_dao.SellerImplementation;
+import com.auction_dao.SellerInterface;
+import com.auction_exception.AdminException;
+import com.auction_exception.SellerException;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Welcome Automate Auction");
+		System.out.println("Press 1)Admin 2)Buyer 3)Seller 4)Exit");
+		int choice=sc.nextInt();
+		while(choice!=4) {
+			switch(choice) {
+				case 1:{
+					//admin
+					System.out.println("Enter admin email :");
+					String aemail=sc.next();
+					System.out.println("Enter admin password :");
+					String apassword=sc.next();
+					AdminInterface a1=new AdminImplementation();
+					try {
+						Admin admin=a1.adminLogin(aemail, apassword);
+						System.out.println("Hello "+admin.getAdmin_name()+"..!");
+						System.out.println(admin);
+					} catch (AdminException e) {
+						// TODO Auto-generated catch block
+						System.out.println(e.getMessage());
+					}
+					break;
+				}
+				case 2:{
+					//buyer
+					break;
+				}
+				case 3:{
+					//seller
+					System.out.println("Press 1)Login as Seller  2)Register as Seller  3) Exit");
+					int schoice=sc.nextInt();
+					while(schoice!=3) {
+						switch(schoice) {
+							case 1:{
+								//login
+								SellerInterface s1=new SellerImplementation();
+								System.out.println("Enter your email :");
+								String semail=sc.next();
+								System.out.println("Enter your password :");
+								String spass=sc.next();
+								try {
+									Seller seller=s1.sellerLogin(semail, spass);
+									System.out.println(seller);
+									//****************************************************
+								} catch (SellerException e) {
+									// TODO Auto-generated catch block
+									System.out.println(e.getMessage());
+								}
+								break;
+							}
+							case 2:{
+								//register
+								SellerInterface s1=new SellerImplementation();
+								System.out.println("Enter seller name :");
+								String sname=sc.next();
+								System.out.println("Enter seller email :");
+								String semail=sc.next();
+								System.out.println("Enter seller possword :");
+								String spass=sc.next();
+								Date date=Date.valueOf(LocalDate.now());
+								Seller seller=new Seller(sname,semail,spass,date);
+								String message=s1.sellerRegistration(seller);
+								System.out.println(message);
+								break;
+							}
+							default:System.out.println("Invalid input");
+						}
+						System.out.println("Press 1)Login as Seller  2)Register as Seller  3) Exit");
+						schoice=sc.nextInt();
+					}
+					break;
+				}
+				default:System.out.println("Invalid Option");
+			}
+			System.out.println("Press 1)Admin 2)Buyer 3)Seller 4)Exit");
+			choice=sc.nextInt();
+		}
+
+	}
+
+}

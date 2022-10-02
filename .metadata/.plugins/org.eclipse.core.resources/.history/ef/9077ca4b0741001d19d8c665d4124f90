@@ -1,0 +1,10 @@
+package com.auction_dao;
+
+import com.auction_bean.Seller;
+import com.auction_exception.SellerException;
+
+public interface SellerInterface {
+	public String sellerRegistration(Seller seller);
+	
+	public Seller sellerLogin(String email,String password) throws SellerException;
+}

@@ -1,0 +1,8 @@
+package com.auction_dao;
+
+import com.auction_bean.Buyer;
+import com.auction_exception.BuyerException;
+
+public interface BuyerInterface {
+	public String registerBuyer(Buyer buyer) throws BuyerException;
+}

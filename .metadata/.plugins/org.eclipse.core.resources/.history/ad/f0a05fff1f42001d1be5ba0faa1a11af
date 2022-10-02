@@ -1,0 +1,8 @@
+package com.auction_dao;
+
+import com.auction_bean.Admin;
+import com.auction_exception.AdminException;
+
+public interface AdminInterface {
+	public  Admin adminLogin(String email,String password) throws AdminException;
+}

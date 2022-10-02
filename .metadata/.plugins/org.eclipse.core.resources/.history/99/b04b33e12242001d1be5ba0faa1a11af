@@ -1,0 +1,68 @@
+package com.auction_dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.auction_bean.Admin;
+import com.auction_bean.BuyerDetails;
+import com.auction_exception.AdminException;
+import com.auction_exception.BuyerException;
+import com.auction_utility.DBUtil;
+
+public class AdminImplementation implements AdminInterface{
+
+	@Override
+	public Admin adminLogin(String email, String password) throws AdminException {
+		
+		
+		try(Connection conn=DBUtil.provideConnection();) {
+			PreparedStatement ps=conn.prepareStatement("select * from admin where admin_email=? AND admin_password=?");
+			ps.setString(1, email);
+			ps.setString(2, password);
+			
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				int id=rs.getInt("admin_id");
+				String name=rs.getString("admin_name");
+				Admin a1=new Admin(id,name,email,password);
+				return a1;
+			}
+			else throw new AdminException("Invalid Input");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new AdminException(e.getMessage());
+		}
+	}
+
+	
+	@Override
+	public List<BuyerDetails> viewAllBuyers() throws BuyerException {
+		List<BuyerDetails> blist=new ArrayList<>();
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("select * from buyer");
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				int b_id=rs.getInt("buyer_id");
+				String b_name=rs.getString("buyer_name");
+				String b_email=rs.getString("buyer_email");
+				String b_password=rs.getString("buyer_password");
+				Date b_signup_date=rs.getDate("buyer_signup_date");
+				
+				BuyerDetails bd1=new BuyerDetails(b_id, b_name, b_email, b_password, b_signup_date);
+				blist.add(bd1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		if(blist.size()==0) throw new BuyerException("No Buyer available");
+		return blist;
+	}
+
+}

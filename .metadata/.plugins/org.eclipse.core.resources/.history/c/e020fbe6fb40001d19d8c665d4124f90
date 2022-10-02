@@ -1,0 +1,31 @@
+package com.auction_dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.auction_bean.Seller;
+import com.auction_utility.DBUtil;
+
+public class SellerImplementation implements SellerInterface{
+
+	@Override
+	public String sellerRegistration(Seller seller) {
+		String message="registration unsuccessful";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("insert into seller(seller_name,seller_email,seller_password,seller_signup_date) value(?,?,?,?)");
+			ps.setString(1, seller.getSeller_name());
+			ps.setString(2, seller.getSeller_email());
+			ps.setString(3, seller.getSeller_password());
+			ps.setDate(4,seller.getSeller_signup_date());
+			
+			int x=ps.executeUpdate();
+			if(x>0) message="Welcome "+ seller.getSeller_name()+"..! Registration Successfull";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			message=e.getMessage();
+		}
+		return message;
+	}
+
+}

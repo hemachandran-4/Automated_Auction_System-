@@ -1,0 +1,51 @@
+package com.auction_client;
+
+import java.util.Scanner;
+
+import com.auction_bean.Admin;
+import com.auction_dao.AdminImplementation;
+import com.auction_dao.AdminInterface;
+import com.auction_exception.AdminException;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Welcome Automate Auction");
+		System.out.println("Press 1)Admin 2)Buyer 3)Seller 4)Exit");
+		int choice=sc.nextInt();
+		while(choice!=4) {
+			switch(choice) {
+				case 1:{
+					//admin
+					System.out.println("Enter admin email :");
+					String aemail=sc.next();
+					System.out.println("Enter admin password :");
+					String apassword=sc.next();
+					AdminInterface a1=new AdminImplementation();
+					try {
+						Admin admin=a1.adminLogin(aemail, apassword);
+						System.out.println(admin);
+					} catch (AdminException e) {
+						// TODO Auto-generated catch block
+						System.out.println(e.getMessage());
+					}
+					break;
+				}
+				case 2:{
+					//buyer
+					break;
+				}
+				case 3:{
+					//seller
+					break;
+				}
+				default:System.out.println("Invalid Option");
+			}
+			System.out.println("Press 1)Admin 2)Buyer 3)Seller 4)Exit");
+			choice=sc.nextInt();
+		}
+
+	}
+
+}

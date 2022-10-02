@@ -1,0 +1,24 @@
+package com.auction_dao;
+
+import java.util.List;
+
+import com.auction_bean.Bid;
+import com.auction_bean.Buyer;
+import com.auction_bean.BuyerId;
+import com.auction_bean.Product;
+import com.auction_exception.BuyerException;
+import com.auction_exception.ProductException;
+
+public interface BuyerInterface {
+	public String registerBuyer(Buyer buyer) throws BuyerException;
+	
+	public Buyer loginBuyer(String email,String password) throws BuyerException;
+	
+	public List<Product> viewAllProdcut() throws ProductException;
+	
+	public Bid bidOnProduct(int amount, int pid, int bid) throws ProductException;
+	
+	public BuyerId getBuyerId(String name) throws BuyerException;
+	
+	public List<Buyer> showAllBuyer() throws BuyerException;
+}

@@ -1,0 +1,198 @@
+package com.auction_dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.auction_bean.Product;
+import com.auction_bean.Seller;
+import com.auction_bean.SellerId;
+import com.auction_bean.SoldProducts;
+import com.auction_exception.ProductException;
+import com.auction_exception.SellerException;
+import com.auction_utility.DBUtil;
+
+public class SellerImplementation implements SellerInterface{
+
+	@Override
+	public String sellerRegistration(Seller seller) {
+		String message="registration unsuccessful";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("insert into seller(seller_name,seller_email,seller_password,seller_signup_date) value(?,?,?,?)");
+			ps.setString(1, seller.getSeller_name());
+			ps.setString(2, seller.getSeller_email());
+			ps.setString(3, seller.getSeller_password());
+			ps.setDate(4,seller.getSeller_signup_date());
+			
+			int x=ps.executeUpdate();
+			if(x>0) message="Welcome "+ seller.getSeller_name()+"..! Registration Successfull";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			message=e.getMessage();
+		}
+		return message;
+	}
+
+	@Override
+	public Seller sellerLogin(String email,String password) throws SellerException {
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("select * from seller where seller_email=? AND seller_password=?");
+			ps.setString(1, email);
+			ps.setString(2, password);
+			
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				String name=rs.getString("seller_name");
+				Date date=rs.getDate("seller_signup_date");
+				Seller seller=new Seller(name,email,password,date);
+				return seller;
+			}
+			else throw new SellerException("Invalid Input");
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public String sellerAddProduct(Product p) throws ProductException {
+		String message="Product not added";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("insert into product(seller_id,disputed,product_added_date,availability,product_name,product_time_limit,product_price,sold,product_minimum_bid) values(?,?,?,?,?,?,?,?,?)");
+			ps.setInt(1,p.getSeller_id());
+			ps.setBoolean(2, p.isDisputed());
+			ps.setDate(3, p.getProduct_added_date());
+			ps.setBoolean(4, p.isAvailability());
+			ps.setString(5, p.getProduct_name());
+			ps.setDate(6, p.getProduct_last_date());
+			ps.setInt(7, p.getMin_bid_amount());
+			ps.setBoolean(8, p.isSold());
+			ps.setInt(9, p.getMin_bid_amount());
+			
+			int x=ps.executeUpdate();
+			if(x>0) message="Product added successfully";
+			else throw new ProductException(message);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		return message;
+	}
+
+	@Override
+	public SellerId getSellerId(String name) throws SellerException {
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("select * from seller where seller_name=?");
+			ps.setString(1, name);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				int seller_id=rs.getInt("seller_id");
+				
+				SellerId sid=new SellerId(seller_id);
+				return sid;
+			}
+			else throw new SellerException("Invalid Input");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+
+	
+	@Override
+	public String updateProductDetails(int pid,Product p) throws ProductException {
+		String message="Update unsuccessful";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("update product SET product_name=?,product_time_limit=?,product_price=?,product_minimum_bid=? where product_id=?");
+			ps.setString(1,p.getProduct_name());
+			ps.setDate(2, p.getProduct_last_date());
+			ps.setInt(3,p.getProduct_price());
+			ps.setInt(4, p.getMin_bid_amount());
+			ps.setInt(5, pid);
+			
+			int x=ps.executeUpdate();
+			if(x>0) message="Product Updated";
+			else throw new ProductException(message);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			message=e.getMessage();
+		}
+		return message;
+	}
+
+	
+	@Override
+	public String deleteProduct(int pid) throws ProductException {
+		String message="Delete Unsuccessful";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("delete from product where product_id=?");
+			ps.setInt(1, pid);
+			int x=ps.executeUpdate();
+			if(x>0) message="Deleted Successfully";
+			else throw new ProductException(message);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			message=e.getMessage();
+		}
+		return message;
+	}
+
+	
+	@Override
+	public List<SoldProducts> showAllProduct() throws ProductException {
+		List<SoldProducts> plist=new ArrayList<>();
+		
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("select * from product where sold=?");
+			ps.setBoolean(1, true);
+			
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				int seller_id=rs.getInt("seller_id");
+				boolean disputed=rs.getBoolean("disputed");
+				Date product_added_date=rs.getDate("product_added_date");
+				boolean availability=rs.getBoolean("availability");
+				String product_name=rs.getString("product_name");
+				Date product_time_limit=rs.getDate("product_time_limit");
+				int product_price=rs.getInt("product_price");
+				int product_selling_price=rs.getInt("product_selling_price");
+				int buyer_id=rs.getInt("buyer_id");
+				boolean sold=rs.getBoolean("sold");
+				int product_minimum_bid=rs.getInt("product_minimum_bid");
+				
+				SoldProducts p1=new SoldProducts(product_name, seller_id, product_price, disputed, product_added_date, product_time_limit, availability, product_minimum_bid, sold, buyer_id,product_selling_price);
+				plist.add(p1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		if(plist.size()==0) throw new ProductException("No Products found. Try to add few products");
+		return plist;
+	}
+
+	@Override
+	public String markDisputed(int id) throws ProductException {
+		String message="Not marked as disputed";
+		try(Connection conn=DBUtil.provideConnection()){
+			PreparedStatement ps=conn.prepareStatement("update product SET disputed=?, availability? where product_id=?");
+			ps.setBoolean(1, true);
+			ps.setBoolean(2, false);
+			ps.setInt(3,id);
+			int x=ps.executeUpdate();
+			if(x>0) message="Marked as Disputed";
+			else throw new ProductException("Invalid entry");
+		}catch(SQLException e) {
+			message=e.getMessage();
+		}
+		return message;
+	}
+}

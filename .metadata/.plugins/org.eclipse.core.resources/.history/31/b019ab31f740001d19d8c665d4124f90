@@ -1,0 +1,5 @@
+package com.auction_bean;
+
+public class Seller {
+
+}

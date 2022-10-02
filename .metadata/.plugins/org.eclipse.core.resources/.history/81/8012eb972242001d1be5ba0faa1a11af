@@ -1,0 +1,14 @@
+package com.auction_dao;
+
+import java.util.List;
+
+import com.auction_bean.Admin;
+import com.auction_bean.BuyerDetails;
+import com.auction_exception.AdminException;
+import com.auction_exception.BuyerException;
+
+public interface AdminInterface {
+	public  Admin adminLogin(String email,String password) throws AdminException;
+	
+	public List<BuyerDetails> viewAllBuyers() throws BuyerException;
+}
